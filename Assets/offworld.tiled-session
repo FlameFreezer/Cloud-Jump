@@ -20,11 +20,12 @@
             }
         },
         "offworld.tmj#tilemap_packed": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "/home/Quincy/Repos/Cloud-Jump/Assets",
-    "last.imagePath": "/home/Quincy/Repos/Cloud-Jump/Assets/kenney_pixel-platformer/Tilemap",
+    "last.imagePath": "/home/Quincy/Repos/Cloud-Jump/Assets",
     "map.height": 256,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "json",

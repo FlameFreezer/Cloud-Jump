@@ -1,7 +1,10 @@
 "use strict"
 
-const canvasW = 800;
-const canvasH = 600;
+const tileDimension = 18;
+const mapWidth = 32;
+const mapHeight = 356;
+const canvasW = 600;
+const canvasH = 800;
 // game config
 let config = {
     parent: 'phaser-game',
@@ -18,7 +21,7 @@ let config = {
     },
     width: canvasW,
     height: canvasH,
-    scene: [Level]
+    scene: [Load, Level]
 }
 
 const game = new Phaser.Game(config);

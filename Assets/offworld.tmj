@@ -813,7 +813,7 @@
         {
          "columns":20,
          "firstgid":1,
-         "image":"kenney_pixel-platformer\/Tilemap\/tilemap_packed.png",
+         "image":"tilemap_packed.png",
          "imageheight":162,
          "imagewidth":360,
          "margin":0,
