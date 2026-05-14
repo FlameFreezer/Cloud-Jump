@@ -9,7 +9,7 @@ class Level extends Phaser.Scene {
 
     }
     create() {
-        this.map = this.add.tilemap("offworld", 18, 18, 32, 256);
+        this.map = this.add.tilemap("offworld", tileDimension, tileDimension, mapWidth, mapHeight);
 
         this.tileset = this.map.addTilesetImage("tilemap_packed", "tilemap_tiles");
 
