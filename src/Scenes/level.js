@@ -22,10 +22,12 @@ class Level extends Phaser.Scene {
         });
 
         this.cameras.main.setBounds(0, 0, TileToPixel(mapWidth), TileToPixel(mapHeight));
-        this.cameras.main.setScroll(0, TileToPixel(221));
+        //this.cameras.main.setScroll(0, TileToPixel(221));
         this.cameras.main.setZoom(1.8);
+
+        this.player = new Player(this, 300, 200);
     }
     update(time, delta) {
-
+        this.player.update(delta);
     }
 }

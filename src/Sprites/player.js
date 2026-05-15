@@ -1,5 +1,36 @@
 class Player extends Phaser.GameObjects.Sprite {
-    constructor() {
-        super(0, 0, null, null);
+    constructor(scene, x, y) {
+        super(scene, x, y, "characters", "tile_0004.png");
+        this.body = new Phaser.Physics.Arcade.Body(scene.physics.world, this);
+        this.anims.create({
+            key: "walk",
+            frameRate: 8,
+            repeat: -1,
+            showOnStart: true,
+            frames: [
+                {key: "characters", frame: "tile_0005.png"},
+                {key: "characters", frame: "tile_0004.png"} 
+            ]
+        });
+        scene.add.existing(this);
+        this.dKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.aKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+
+        this.dKey.on("down", (event) => {
+            this.play("walk");
+        });
+        this.dKey.on("up", (event) => {
+            this.stopAfterRepeat(0);
+        })
+        this.aKey.on("down", (event) => {
+            this.play("walk");
+        });
+        this.aKey.on("up", (event) => {
+            this.stopAfterRepeat(0);
+        })
+    }
+
+    update(delta) {
+
     }
 }
