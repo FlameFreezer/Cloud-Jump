@@ -9,6 +9,10 @@ class Level extends Phaser.Scene {
 
     }
     init() {
+        this.PLAYER_SPAWN_POS = {
+            x: 15,
+            y: 251
+        };
     }
     create() {
         this.map = this.add.tilemap("offworld", tileDimension, tileDimension, mapWidth, mapHeight);
@@ -23,7 +27,7 @@ class Level extends Phaser.Scene {
             Collides: true
         });
 
-        this.player = new Player(this, TileToPixel(15), TileToPixel(251));
+        this.player = new Player(this, TileToPixel(this.PLAYER_SPAWN_POS.x), TileToPixel(this.PLAYER_SPAWN_POS.y));
 
         //this.player.body.setCollideWorldBounds(true);
         this.physics.add.collider(this.player.body, this.spriteLayer);

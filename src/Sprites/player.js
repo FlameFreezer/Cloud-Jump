@@ -37,7 +37,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.UP_GRAVITY = 700;
         this.DOWN_GRAVITY = 1200;
         this.COLLISION_X_MARGIN = 2;
-        this.COLLISION_Y_MARGIN = 10;
+        this.COLLISION_Y_MARGIN = 15;
         this.TERMINAL_SPEED = 700;
         this.JUMP_RELEASE_SPEED = 100;
 
@@ -83,13 +83,15 @@ class Player extends Phaser.GameObjects.Sprite {
             this.body.velocity.y = -this.JUMP_RELEASE_SPEED;
         }
 
-        // Flip player sprite based on velocity
-        if(this.body.velocity.x - SMALL_DELTA > 0) {
+        // Flip player sprite based on input
+        if(input > 0) {
             this.flipX = true;
         }
-        else if(this.body.velocity.x + SMALL_DELTA < 0) {
+        else if(input < 0) {
             this.flipX = false;
         }
+
+        // Up and Down gravity
         if(this.body.velocity.y < 0) {
             this.body.setGravityY(this.UP_GRAVITY);
         }
