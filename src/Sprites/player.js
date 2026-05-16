@@ -17,10 +17,23 @@ class Player extends Phaser.GameObjects.Sprite {
             ]
         });
         this.ACCELERATION = 400;
+        this.MAX_SPEED = 130;
+        this.TURN_SPEED = 2 * this.ACCELERATION;
+        this.JUMP_SPEED = 325;
+        this.UP_GRAVITY = 700;
+        this.DOWN_GRAVITY = 1200;
+        this.COLLISION_X_MARGIN = 2;
+        this.COLLISION_Y_MARGIN = 10;
+        this.TERMINAL_SPEED = 700;
+
         this.dKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.aKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.spaceKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.body.setMaxVelocityX(140);
+
+        this.body.setMaxVelocityX(this.MAX_SPEED);
+        this.body.setMaxVelocityY(this.TERMINAL_SPEED);
+        this.body.setSize(this.width * this.scaleX - this.COLLISION_X_MARGIN * 2, this.height * this.scaleY - this.COLLISION_Y_MARGIN, true);
+        this.body.setOffset(this.COLLISION_X_MARGIN, this.COLLISION_Y_MARGIN);
     }
 
     update(delta) {
@@ -38,12 +51,16 @@ class Player extends Phaser.GameObjects.Sprite {
             this.body.setDragX(this.ACCELERATION);
         }
         else {
-            this.body.setAccelerationX(input * this.ACCELERATION);
+            var accel = this.ACCELERATION;
+            if(Math.sign(input) != Math.sign(this.body.velocity.x)) {
+                accel = this.TURN_SPEED;
+            }
+            this.body.setAccelerationX(input * accel);
         }
         
         // Check for jumping
         if(Phaser.Input.Keyboard.JustDown(this.spaceKey) && this.body.blocked.down) {
-            this.body.velocity.y -= 400;
+            this.body.velocity.y -= this.JUMP_SPEED;
         }
 
         // Flip player sprite based on velocity
@@ -52,6 +69,12 @@ class Player extends Phaser.GameObjects.Sprite {
         }
         else if(this.body.velocity.x + SMALL_DELTA < 0) {
             this.flipX = false;
+        }
+        if(this.body.velocity.y < 0) {
+            this.body.setGravityY(this.UP_GRAVITY);
+        }
+        else {
+            this.body.setGravityY(this.DOWN_GRAVITY);
         }
 
         // Handle walk animation

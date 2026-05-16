@@ -9,7 +9,6 @@ class Level extends Phaser.Scene {
 
     }
     init() {
-        this.physics.world.gravity.y = 1500;
     }
     create() {
         this.map = this.add.tilemap("offworld", tileDimension, tileDimension, mapWidth, mapHeight);
