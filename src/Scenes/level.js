@@ -23,13 +23,15 @@ class Level extends Phaser.Scene {
             Collides: true
         });
 
-        this.player = new Player(this, 300, 1800);
+        this.player = new Player(this, TileToPixel(15), TileToPixel(251));
 
         //this.player.body.setCollideWorldBounds(true);
         this.physics.add.collider(this.player.body, this.spriteLayer);
 
-        this.cameras.main.setBounds(0, 0, TileToPixel(mapWidth), TileToPixel(mapHeight));
+        //idk this magic number stops the camera from scrolling too far down
+        this.cameras.main.setBounds(0, 0, TileToPixel(mapWidth), TileToPixel(mapHeight) - 1800);
         this.cameras.main.setZoom(1.8);
+        this.cameras.main.setDeadzone(50, 50);
         this.cameras.main.startFollow(this.player.body, true, 0.25, 0.25);
 
 
