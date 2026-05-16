@@ -1,5 +1,5 @@
 {
-    "activeFile": "offworld.tmj",
+    "activeFile": "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -12,12 +12,23 @@
         "#tilemap_packed": {
             "scaleInDock": 1
         },
+        "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx": {
+            "scale": 1.311747685185185,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 438.72766576962107,
+                "y": 338.47972823929064
+            }
+        },
+        "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx#kenny_tilemap_packed": {
+            "scaleInDock": 1
+        },
         "offworld.tmj": {
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 365.6666666666667,
-                "y": 4174.333333333333
+                "x": 195.66666666666666,
+                "y": 4075.333333333333
             }
         },
         "offworld.tmj#tilemap_packed": {
@@ -29,7 +40,7 @@
             "scaleInEditor": 4
         }
     },
-    "last.exportedFilePath": "/home/Quincy/Repos/Cloud-Jump/Assets",
+    "last.exportedFilePath": "/home/Quincy/Repos/PlatformImprovement/assets",
     "last.imagePath": "/home/Quincy/Repos/Cloud-Jump/Assets",
     "map.height": 256,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
@@ -38,12 +49,14 @@
     "map.tileWidth": 18,
     "map.width": 32,
     "openFiles": [
-        "offworld.tmj"
+        "offworld.tmj",
+        "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx"
     ],
     "project": "offworld.tiled-project",
     "property.type": "bool",
     "recentFiles": [
         "offworld.tmj",
+        "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx",
         "tilemap-characters_packed.json"
     ],
     "tileset.embedInMap": false,
