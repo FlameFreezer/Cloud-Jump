@@ -25,6 +25,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.COLLISION_X_MARGIN = 2;
         this.COLLISION_Y_MARGIN = 10;
         this.TERMINAL_SPEED = 700;
+        this.JUMP_RELEASE_SPEED = 100;
 
         this.dKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.aKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -61,6 +62,9 @@ class Player extends Phaser.GameObjects.Sprite {
         // Check for jumping
         if(Phaser.Input.Keyboard.JustDown(this.spaceKey) && this.body.blocked.down) {
             this.body.velocity.y -= this.JUMP_SPEED;
+        }
+        if(Phaser.Input.Keyboard.JustUp(this.spaceKey) && this.body.velocity.y < -this.JUMP_RELEASE_SPEED) {
+            this.body.velocity.y = -this.JUMP_RELEASE_SPEED;
         }
 
         // Flip player sprite based on velocity
