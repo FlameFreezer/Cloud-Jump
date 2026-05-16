@@ -16,6 +16,20 @@ class Player extends Phaser.GameObjects.Sprite {
                 {key: "characters", frame: "tile_0004.png"} 
             ]
         });
+        this.anims.create({
+            key: "jump",
+            showOnStart: true,
+            frames: [
+                {key: "characters", frame: "tile_0005.png"}
+            ]
+        });
+        this.anims.create({
+            key: "idle",
+            showOnStart: true,
+            frames: [
+                {key: "characters", frame: "tile_0004.png"} 
+            ]
+        });
         this.ACCELERATION = 400;
         this.MAX_SPEED = 130;
         this.TURN_SPEED = 2 * this.ACCELERATION;
@@ -35,6 +49,8 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setMaxVelocityY(this.TERMINAL_SPEED);
         this.body.setSize(this.width * this.scaleX - this.COLLISION_X_MARGIN * 2, this.height * this.scaleY - this.COLLISION_Y_MARGIN, true);
         this.body.setOffset(this.COLLISION_X_MARGIN, this.COLLISION_Y_MARGIN);
+
+        this.playingWalk = false;
     }
 
     update(delta) {
@@ -81,12 +97,19 @@ class Player extends Phaser.GameObjects.Sprite {
             this.body.setGravityY(this.DOWN_GRAVITY);
         }
 
-        // Handle walk animation
-        if(this.body.velocity.x != 0 && !this.anims.isPlaying) {
-            this.play("walk");
+        if(!this.body.blocked.down) {
+            this.play("jump");
+            this.playingWalk = false;
+        }
+        else if(this.body.velocity.x != 0) {
+            if(!this.playingWalk) {
+                this.play("walk");
+                this.playingWalk = true;
+            }
         }
         else {
-            this.stopAfterRepeat(0);
+            this.play("idle");
+            this.playingWalk = false;
         }
     }
 }
