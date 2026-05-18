@@ -124,4 +124,11 @@ class Player extends Phaser.GameObjects.Sprite {
             this.playingWalk = false;
         }
     }
+    pause() {
+        this.stop();
+        this.body.setAccelerationX(0);
+        this.body.setDragX(0);
+        this.body.setVelocityX(0);
+        this.body.setGravityY(0);
+    }
 }

@@ -32,15 +32,41 @@ class Level extends Phaser.Scene {
         //this.player.body.setCollideWorldBounds(true);
         this.physics.add.collider(this.player.body, this.spriteLayer);
 
-        //idk this magic number stops the camera from scrolling too far down
+        //this magic number stops the camera from scrolling too far down
         this.cameras.main.setBounds(0, 0, TileToPixel(mapWidth), TileToPixel(mapHeight) - 1800);
         this.cameras.main.setZoom(1.8);
         this.cameras.main.setDeadzone(50, 50);
         this.cameras.main.startFollow(this.player.body, true, 0.25, 0.25);
 
+        this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
+        this.levelOver = false;
+
+        this.endLevelTxt = this.add.bitmapText(0, 0, "daydream_3", "Horay! You WIN!\n\nPress enter to play again", 14)
+            .setOrigin(0.5)
+            .setBlendMode(Phaser.BlendModes.ADD);
+        this.endLevelTxt.maxWidth = 150;
+
+        this.endLevelTxt.visible = false;
     }
     update(time, delta) {
-        this.player.update(delta);
+        if(!this.levelOver) {
+            this.player.update(delta);
+            //Level end condition - land on the UFO runway
+            if(this.player.y <= TileToPixel(122) && this.player.body.blocked.down) {
+                this.levelOver = true;
+                this.player.pause();
+                let worldView = this.cameras.main.worldView;
+                this.endLevelTxt.x = worldView.x + worldView.width / 2;
+                this.endLevelTxt.y = worldView.y + worldView.height / 2;
+                this.endLevelTxt.visible = true;
+            }
+        }
+        else {
+            if(this.enterKey.isDown) {
+                this.endLevelTxt.visible = false;
+                this.scene.start("level");
+            }
+        }
     }
 }
