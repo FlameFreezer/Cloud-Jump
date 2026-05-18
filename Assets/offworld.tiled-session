@@ -1,5 +1,5 @@
 {
-    "activeFile": "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx",
+    "activeFile": "offworld.tmj",
     "expandedProjectPaths": [
         "."
     ],
@@ -16,19 +16,19 @@
             "scale": 1.311747685185185,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 438.72766576962107,
-                "y": 338.47972823929064
+                "x": 431.866590197203,
+                "y": 224.5096395641241
             }
         },
         "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx#kenny_tilemap_packed": {
             "scaleInDock": 1
         },
         "offworld.tmj": {
-            "scale": 1.5,
+            "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 195.66666666666666,
-                "y": 4075.333333333333
+                "x": 288,
+                "y": 2303.75
             }
         },
         "offworld.tmj#tilemap_packed": {
@@ -55,8 +55,8 @@
     "project": "offworld.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "offworld.tmj",
         "/home/Quincy/Repos/PlatformImprovement/assets/platformer-level-1.tmx",
+        "offworld.tmj",
         "tilemap-characters_packed.json"
     ],
     "tileset.embedInMap": false,

@@ -33,6 +33,8 @@ class Player extends Phaser.GameObjects.Sprite {
         this.ACCELERATION = 400;
         this.MAX_SPEED = 130;
         this.TURN_SPEED = 2 * this.ACCELERATION;
+        this.FRICTION = this.ACCELERATION;
+        this.DRAG = 50;
         this.JUMP_SPEED = 325;
         this.UP_GRAVITY = 700;
         this.DOWN_GRAVITY = 1200;
@@ -54,29 +56,36 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     update(delta) {
+        let isOnFloor = this.body.blocked.down; 
         // Horizontal input polling
-        var input = 0;
+        let input = 0;
         if(this.dKey.isDown) {
             input += 1;
         }
         if(this.aKey.isDown) {
             input -= 1;
         }
+
         // Apply horizontal acceleration
         if(input == 0) {
             this.body.setAccelerationX(0);
-            this.body.setDragX(this.ACCELERATION);
+            if(isOnFloor) {
+                this.body.setDragX(this.FRICTION);
+            }
+            else {
+                this.body.setDragX(this.DRAG);
+            }
         }
         else {
-            var accel = this.ACCELERATION;
-            if(Math.sign(input) != Math.sign(this.body.velocity.x)) {
+            let accel = this.ACCELERATION;
+            if(Math.sign(input) != Math.sign(this.body.velocity.x) && isOnFloor) {
                 accel = this.TURN_SPEED;
             }
             this.body.setAccelerationX(input * accel);
         }
         
         // Check for jumping
-        if(Phaser.Input.Keyboard.JustDown(this.spaceKey) && this.body.blocked.down) {
+        if(Phaser.Input.Keyboard.JustDown(this.spaceKey) && isOnFloor) {
             this.body.velocity.y -= this.JUMP_SPEED;
         }
         if(Phaser.Input.Keyboard.JustUp(this.spaceKey) && this.body.velocity.y < -this.JUMP_RELEASE_SPEED) {
@@ -99,7 +108,8 @@ class Player extends Phaser.GameObjects.Sprite {
             this.body.setGravityY(this.DOWN_GRAVITY);
         }
 
-        if(!this.body.blocked.down) {
+        // Animations
+        if(!isOnFloor) {
             this.play("jump");
             this.playingWalk = false;
         }
