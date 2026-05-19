@@ -6,13 +6,19 @@ class Load extends Phaser.Scene {
     preload() {
         this.load.setPath("./Assets");
 
+        //Load tilemaps
         this.load.atlas("characters", "tilemap-characters-packed.png", "tilemap-characters-packed.json");
 
         this.load.image("tilemap_tiles", "tilemap_packed.png");
         this.load.tilemapTiledJSON("offworld", "offworld.tmj");
 
+        //Load particles
+        this.load.multiatlas("kenney-particles", "kenney-particles.json");
+
+        //Load font
         this.load.setPath("./Assets/daydream_3");
         this.load.bitmapFont("daydream_3", "daydream_3_0.png", "daydream_3.fnt");
+
     }
 
     create() {

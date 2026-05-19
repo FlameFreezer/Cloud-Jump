@@ -53,6 +53,18 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setOffset(this.COLLISION_X_MARGIN, this.COLLISION_Y_MARGIN);
 
         this.playingWalk = false;
+
+        this.walkingVFX = scene.add.particles(0, 0, "kenney-particles", {
+            frame: "smoke_04.png",
+            scale: {start: 0.03, end: 0.05},
+            maxAliveParticles: 1,
+            lifespan: 300,
+            gravityY: -200,
+            alpha: {start: 1.0, end: 0.8},
+            rotate: {min: 0, max: 360}
+        });
+        this.walkingVFX.stop();
+
     }
 
     update(delta) {
@@ -112,16 +124,20 @@ class Player extends Phaser.GameObjects.Sprite {
         if(!isOnFloor) {
             this.play("jump");
             this.playingWalk = false;
+            this.walkingVFX.stop();
         }
         else if(this.body.velocity.x != 0) {
             if(!this.playingWalk) {
                 this.play("walk");
                 this.playingWalk = true;
+                this.walkingVFX.startFollow(this, -5 * Math.sign(this.body.velocity.x), this.displayHeight / 2 - 5, false);
+                this.walkingVFX.start();
             }
         }
         else {
             this.play("idle");
             this.playingWalk = false;
+            this.walkingVFX.stop();
         }
     }
     pause() {
