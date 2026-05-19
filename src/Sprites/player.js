@@ -1,4 +1,11 @@
 const SMALL_DELTA = 0.01;
+var jumpVFXConfig = {
+    frame: "smoke_01.png",
+    scale: 0.08,
+    maxAliveParticles: 1,
+    lifespan: 180,
+    speed: 200,
+};
 class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
         super(scene, x, y, "characters", "tile_0004.png");
@@ -55,20 +62,34 @@ class Player extends Phaser.GameObjects.Sprite {
         this.playingWalk = false;
 
         this.walkingVFX = scene.add.particles(0, 0, "kenney-particles", {
-            frame: "smoke_04.png",
+            frame: "smoke_07.png",
             scale: {start: 0.03, end: 0.05},
             maxAliveParticles: 1,
             lifespan: 300,
+            frequency: 300,
             gravityY: -200,
             alpha: {start: 1.0, end: 0.8},
             rotate: {min: 0, max: 360}
         });
         this.walkingVFX.stop();
 
+        this.jumpVFX = {};
+        jumpVFXConfig.angle = 0;
+        this.jumpVFX.left = scene.add.particles(0, 0, "kenney-particles", jumpVFXConfig)
+        this.jumpVFX.left.stop();
+        this.jumpVFX.left.startFollow(this, -5, this.displayHeight / 2 - 5, false);
+
+        jumpVFXConfig.angle = 180;
+        this.jumpVFX.right = scene.add.particles(0, 0, "kenney-particles", jumpVFXConfig);
+        this.jumpVFX.right.stop();
+        this.jumpVFX.right.startFollow(this, 5, this.displayHeight / 2 - 5, false);
+
+        this.isOnFloor = false;
+        this.wasOnFloor = false;
     }
 
     update(delta) {
-        let isOnFloor = this.body.blocked.down; 
+        this.isOnFloor = this.body.blocked.down; 
         // Horizontal input polling
         let input = 0;
         if(this.dKey.isDown) {
@@ -81,7 +102,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // Apply horizontal acceleration
         if(input == 0) {
             this.body.setAccelerationX(0);
-            if(isOnFloor) {
+            if(this.isOnFloor) {
                 this.body.setDragX(this.FRICTION);
             }
             else {
@@ -90,14 +111,14 @@ class Player extends Phaser.GameObjects.Sprite {
         }
         else {
             let accel = this.ACCELERATION;
-            if(Math.sign(input) != Math.sign(this.body.velocity.x) && isOnFloor) {
+            if(Math.sign(input) != Math.sign(this.body.velocity.x) && this.isOnFloor) {
                 accel = this.TURN_SPEED;
             }
             this.body.setAccelerationX(input * accel);
         }
         
         // Check for jumping
-        if(Phaser.Input.Keyboard.JustDown(this.spaceKey) && isOnFloor) {
+        if(Phaser.Input.Keyboard.JustDown(this.spaceKey) && this.isOnFloor) {
             this.body.velocity.y -= this.JUMP_SPEED;
         }
         if(Phaser.Input.Keyboard.JustUp(this.spaceKey) && this.body.velocity.y < -this.JUMP_RELEASE_SPEED) {
@@ -121,7 +142,7 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // Animations
-        if(!isOnFloor) {
+        if(!this.isOnFloor) {
             this.play("jump");
             this.playingWalk = false;
             this.walkingVFX.stop();
@@ -139,6 +160,13 @@ class Player extends Phaser.GameObjects.Sprite {
             this.playingWalk = false;
             this.walkingVFX.stop();
         }
+        if(this.isOnFloor) {
+            if(!this.wasOnFloor) {
+                this.jumpVFX.left.explode();
+                this.jumpVFX.right.explode();
+            }
+        }
+        this.wasOnFloor = this.isOnFloor;
     }
     pause() {
         this.stop();
