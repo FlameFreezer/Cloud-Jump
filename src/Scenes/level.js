@@ -27,6 +27,12 @@ class Level extends Phaser.Scene {
             Collides: true
         });
 
+        this.coins = this.map.createFromObjects("Coins", {
+            name: "coin",
+            key: "tilemap_sheet",
+            frame: 151
+        });
+
         this.player = new Player(this, TileToPixel(this.PLAYER_SPAWN_POS.x), TileToPixel(this.PLAYER_SPAWN_POS.y));
 
         //this.player.body.setCollideWorldBounds(true);

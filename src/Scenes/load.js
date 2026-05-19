@@ -15,6 +15,11 @@ class Load extends Phaser.Scene {
         //Load particles
         this.load.multiatlas("kenney-particles", "kenney-particles.json");
 
+        this.load.spritesheet("tilemap_sheet", "tilemap_packed.png", {
+            frameWidth: 18,
+            frameHeight: 18
+        });
+
         //Load font
         this.load.setPath("./Assets/daydream_3");
         this.load.bitmapFont("daydream_3", "daydream_3_0.png", "daydream_3.fnt");
