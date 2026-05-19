@@ -74,12 +74,13 @@ class Player extends Phaser.GameObjects.Sprite {
         this.walkingVFX.stop();
 
         this.jumpVFX = {};
-        jumpVFXConfig.angle = 0;
+        //Left particle
+        jumpVFXConfig.angle = 180;
         this.jumpVFX.left = scene.add.particles(0, 0, "kenney-particles", jumpVFXConfig)
         this.jumpVFX.left.stop();
         this.jumpVFX.left.startFollow(this, -5, this.displayHeight / 2 - 5, false);
-
-        jumpVFXConfig.angle = 180;
+        //Right particle
+        jumpVFXConfig.angle = 0;
         this.jumpVFX.right = scene.add.particles(0, 0, "kenney-particles", jumpVFXConfig);
         this.jumpVFX.right.stop();
         this.jumpVFX.right.startFollow(this, 5, this.displayHeight / 2 - 5, false);
@@ -160,10 +161,20 @@ class Player extends Phaser.GameObjects.Sprite {
             this.playingWalk = false;
             this.walkingVFX.stop();
         }
+        //Jump particles
         if(this.isOnFloor) {
             if(!this.wasOnFloor) {
-                this.jumpVFX.left.explode();
-                this.jumpVFX.right.explode();
+                const DELTA = 70;
+                if(Math.abs(this.body.velocity.x) < DELTA) {
+                    this.jumpVFX.left.explode();
+                    this.jumpVFX.right.explode();
+                }
+                else if(this.body.velocity.x > DELTA) {
+                    this.jumpVFX.left.explode();
+                }
+                else {
+                    this.jumpVFX.right.explode();
+                }
             }
         }
         this.wasOnFloor = this.isOnFloor;
@@ -174,5 +185,8 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setDragX(0);
         this.body.setVelocityX(0);
         this.body.setGravityY(0);
+        this.jumpVFX.left.stop();
+        this.jumpVFX.right.stop();
+        this.walkingVFX.stop();
     }
 }
