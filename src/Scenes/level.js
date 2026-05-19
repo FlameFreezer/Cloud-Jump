@@ -27,16 +27,22 @@ class Level extends Phaser.Scene {
             Collides: true
         });
 
+
+        this.player = new Player(this, TileToPixel(this.PLAYER_SPAWN_POS.x), TileToPixel(this.PLAYER_SPAWN_POS.y));
+
         this.coins = this.map.createFromObjects("Coins", {
             name: "coin",
             key: "tilemap_sheet",
             frame: 151
         });
-
-        this.player = new Player(this, TileToPixel(this.PLAYER_SPAWN_POS.x), TileToPixel(this.PLAYER_SPAWN_POS.y));
-
-        //this.player.body.setCollideWorldBounds(true);
+        this.physics.world.enable(this.coins, Phaser.Physics.Arcade.STATIC_BODY);
+        this.coinGroup = this.add.group(this.coins);
+        this.coinsCollected = 0;
         this.physics.add.collider(this.player.body, this.spriteLayer);
+        this.physics.add.overlap(this.player, this.coinGroup, (obj1, obj2) => {
+            obj2.destroy();
+            this.coinsCollected++;
+        })
 
         //this magic number stops the camera from scrolling too far down
         this.cameras.main.setBounds(0, 0, TileToPixel(mapWidth), TileToPixel(mapHeight) - 1800);
@@ -54,6 +60,7 @@ class Level extends Phaser.Scene {
         this.endLevelTxt.maxWidth = 150;
 
         this.endLevelTxt.visible = false;
+
     }
     update(time, delta) {
         if(!this.levelOver) {
@@ -66,6 +73,7 @@ class Level extends Phaser.Scene {
                 this.endLevelTxt.x = worldView.x + worldView.width / 2;
                 this.endLevelTxt.y = worldView.y + worldView.height / 2;
                 this.endLevelTxt.visible = true;
+                console.log(`Coins collected: ${this.coinsCollected}`);
             }
         }
         else {
