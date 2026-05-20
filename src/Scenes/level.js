@@ -27,6 +27,9 @@ class Level extends Phaser.Scene {
             Collides: true
         });
 
+        this.coinSFX = this.sound.add("collectCoin", {
+            volume: 0.5
+        });
 
         this.player = new Player(this, TileToPixel(this.PLAYER_SPAWN_POS.x), TileToPixel(this.PLAYER_SPAWN_POS.y));
 
@@ -57,6 +60,7 @@ class Level extends Phaser.Scene {
             obj2.destroy();
             this.coinCount++;
             this.registry.set('coin count', this.coinCount);
+            this.coinSFX.play();
         })
 
         //this magic number stops the camera from scrolling too far down

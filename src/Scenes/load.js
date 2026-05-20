@@ -22,6 +22,7 @@ class Load extends Phaser.Scene {
         //Load audio
         this.load.setPath("./Assets/Audio");
         this.load.audio("jump", "phaseJump1.ogg");
+        this.load.audio("collectCoin", "impactMetal_light_003.ogg");
     }
 
     create() {
