@@ -38,10 +38,22 @@ class Level extends Phaser.Scene {
         this.physics.world.enable(this.coins, Phaser.Physics.Arcade.STATIC_BODY);
         this.coinGroup = this.add.group(this.coins);
         this.coinCount = 0;
+        this.coinParticle = this.add.particles(0, 0, "kenney-particles", {
+            frame: "flare_01.png",
+            scale: 0.1,
+            speed: 50,
+            lifespan: 250,
+            frequency: 0,
+            quantity: 5
+        });
+        this.coinParticle.stop();
         this.registry.set('coin count', this.coinCount);
-        this.registry.set('level over', false);
         this.physics.add.collider(this.player.body, this.spriteLayer);
+
         this.physics.add.overlap(this.player, this.coinGroup, (obj1, obj2) => {
+            this.coinParticle.x = obj2.x;
+            this.coinParticle.y = obj2.y;
+            this.coinParticle.explode();
             obj2.destroy();
             this.coinCount++;
             this.registry.set('coin count', this.coinCount);
@@ -53,9 +65,11 @@ class Level extends Phaser.Scene {
         this.cameras.main.setDeadzone(50, 50);
         this.cameras.main.startFollow(this.player.body, true, 0.25, 0.25);
 
+
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         this.levelOver = false;
+        this.registry.set('level over', false);
 
         this.ui = this.scene.launch("ui");
     }
