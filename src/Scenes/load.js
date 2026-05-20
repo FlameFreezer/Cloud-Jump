@@ -19,6 +19,9 @@ class Load extends Phaser.Scene {
             frameWidth: 18,
             frameHeight: 18
         });
+        //Load audio
+        this.load.setPath("./Assets/Audio");
+        this.load.audio("jump", "phaseJump1.ogg");
     }
 
     create() {

@@ -85,6 +85,10 @@ class Player extends Phaser.GameObjects.Sprite {
         this.jumpVFX.right.stop();
         this.jumpVFX.right.startFollow(this, 5, this.displayHeight / 2 - 5, false);
 
+        this.jumpSFX = scene.sound.add("jump", {
+            volume: 0.5
+        });
+
         this.isOnFloor = false;
         this.wasOnFloor = false;
     }
@@ -121,6 +125,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // Check for jumping
         if(Phaser.Input.Keyboard.JustDown(this.spaceKey) && this.isOnFloor) {
             this.body.velocity.y -= this.JUMP_SPEED;
+            this.jumpSFX.play();
         }
         if(Phaser.Input.Keyboard.JustUp(this.spaceKey) && this.body.velocity.y < -this.JUMP_RELEASE_SPEED) {
             this.body.velocity.y = -this.JUMP_RELEASE_SPEED;
