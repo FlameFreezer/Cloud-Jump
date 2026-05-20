@@ -37,11 +37,14 @@ class Level extends Phaser.Scene {
         });
         this.physics.world.enable(this.coins, Phaser.Physics.Arcade.STATIC_BODY);
         this.coinGroup = this.add.group(this.coins);
-        this.coinsCollected = 0;
+        this.coinCount = 0;
+        this.registry.set('coin count', this.coinCount);
+        this.registry.set('level over', false);
         this.physics.add.collider(this.player.body, this.spriteLayer);
         this.physics.add.overlap(this.player, this.coinGroup, (obj1, obj2) => {
             obj2.destroy();
-            this.coinsCollected++;
+            this.coinCount++;
+            this.registry.set('coin count', this.coinCount);
         })
 
         //this magic number stops the camera from scrolling too far down
@@ -54,31 +57,22 @@ class Level extends Phaser.Scene {
 
         this.levelOver = false;
 
-        this.endLevelTxt = this.add.bitmapText(0, 0, "daydream_3", "Horay! You WIN!\n\nPress enter to play again", 14)
-            .setOrigin(0.5)
-            .setBlendMode(Phaser.BlendModes.ADD);
-        this.endLevelTxt.maxWidth = 150;
-
-        this.endLevelTxt.visible = false;
-
+        this.ui = this.scene.launch("ui");
     }
     update(time, delta) {
         if(!this.levelOver) {
             this.player.update(delta);
             //Level end condition - land on the UFO runway
+            //250
             if(this.player.y <= TileToPixel(122) && this.player.body.blocked.down) {
                 this.levelOver = true;
+                this.registry.set('level over', true);
                 this.player.pause();
-                let worldView = this.cameras.main.worldView;
-                this.endLevelTxt.x = worldView.x + worldView.width / 2;
-                this.endLevelTxt.y = worldView.y + worldView.height / 2;
-                this.endLevelTxt.visible = true;
-                console.log(`Coins collected: ${this.coinsCollected}`);
             }
         }
         else {
             if(this.enterKey.isDown) {
-                this.endLevelTxt.visible = false;
+                this.registry.set('level over', false);
                 this.scene.start("level");
             }
         }

@@ -24,11 +24,11 @@
             "scaleInDock": 1
         },
         "offworld.tmj": {
-            "scale": 4.2337,
-            "selectedLayer": 0,
+            "scale": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 287.92781727566904,
-                "y": 2303.7768382266104
+                "x": 288,
+                "y": 2303.75
             }
         },
         "offworld.tmj#tilemap_packed": {

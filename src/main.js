@@ -21,7 +21,7 @@ let config = {
     },
     width: canvasW,
     height: canvasH,
-    scene: [Load, Level]
+    scene: [Load, Level, UI]
 }
 
 const game = new Phaser.Game(config);
